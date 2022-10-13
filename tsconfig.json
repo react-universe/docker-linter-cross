@@ -6,6 +6,12 @@
     "esModuleInterop": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "lib": ["ES2019"],
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": false, 
+    "inlineSources": false,
+    "types": ["node"]
   }
 }

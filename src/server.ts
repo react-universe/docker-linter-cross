@@ -10,7 +10,7 @@ app.use(Express.json())
 
 const generateFile = (code:string,ext:string) => {
     try {
-        fs.writeFileSync(`./src/main.${ext}`,code,{
+        fs.writeFileSync(`./LintFolder/main.${ext}`,code,{
             encoding : "utf-8",
             flag : "w"
         })
@@ -26,7 +26,7 @@ app.post("/lint",(req:Express.Request,res:Express.Response)=>{
         if(err){
             res.status(403).json("Something Wrong")
         }
-        exec("mkdir src",(err,stdout,stderr)=>{
+        exec("mkdir LintFolder",(err,stdout,stderr)=>{
             if(err){
                 res.status(403).json("Something Wrong")
             }
@@ -35,7 +35,7 @@ app.post("/lint",(req:Express.Request,res:Express.Response)=>{
                 res.json("failed")
             }
             exec("npm run lintcall",(err,stdout,stderr)=>{
-                const checkFile = fs.existsSync("./src/megalinter-reports/linters_logs/ERROR-PYTHON_PYRIGHT.log")
+                const checkFile = fs.existsSync("./LintFolder/megalinter-reports/linters_logs/ERROR-PYTHON_PYRIGHT.log")
                 if(checkFile){
                     res.json(ErrorLintList.python())
                 }else if(err){

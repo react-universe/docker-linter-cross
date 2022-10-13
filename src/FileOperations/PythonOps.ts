@@ -2,7 +2,7 @@ import fs from "fs"
 
 const ErrorCapture = () => {
     try{
-        const ReadErr = fs.readFileSync("./src/megalinter-reports/linters_logs/ERROR-PYTHON_PYRIGHT.log",{
+        const ReadErr = fs.readFileSync("./LintFolder/megalinter-reports/linters_logs/ERROR-PYTHON_PYRIGHT.log",{
             encoding : "utf-8",
             flag : "r"
         })

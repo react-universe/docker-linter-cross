@@ -5,11 +5,11 @@
   "main": "server",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clearfile" : "rimraf ./src",
-    "clear" : "rimraf ./src/megalinter-reports",
-    "debugger" : "mega-linter-runner -p src -e 'ENABLE_LINTERS=PYTHON_PYRIGHT'",
+    "clearfile" : "rimraf ./LintFolder",
+    "clear" : "rimraf ./LintFolder/megalinter-reports",
+    "debugger" : "mega-linter-runner -p LintFolder -e 'ENABLE_LINTERS=PYTHON_PYRIGHT'",
     "lintcall" : "npm run clear && npm run debugger",
-    "server" : "nodemon server.ts"
+    "server" : "nodemon ./src/server.ts"
   },
   "repository": {
     "type": "git",
