@@ -4,8 +4,7 @@
   "description": "",
   "main": "server",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "clearfile": "rimraf ./LintFolder",
+    "build": "tsc",
     "server": "nodemon ./src/server.ts"
   },
   "repository": {

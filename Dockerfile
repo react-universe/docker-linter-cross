@@ -30,4 +30,4 @@ RUN npm install -g nodemon
 RUN npm install -g mega-linter-runner
 RUN npm install
 EXPOSE 3500
-CMD [ "nodemon", "server.ts" ]
+CMD [ "nodemon", "./src/server.ts" ]

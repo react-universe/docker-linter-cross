@@ -23,19 +23,16 @@ const generateFile = (code:string,ext:string) => {
 
 
 app.post("/lint",(req:Express.Request,res:Express.Response)=>{
-    exec("npm run clearfile",(err,stdout,stderr)=>{
-        if(err){
-            res.status(403).json("Something Wrong")
-        }
-        exec("mkdir LintFolder",(err,stdout,stderr)=>{
-            if(err){
-                res.status(403).json("Something Wrong")
-            }
-            const GenFile = generateFile(req.body.code,ExtensionList.python)
+            const language = req.body.language
+            //@ts-ignore
+            const GenFile = generateFile(req.body.code,ExtensionList[language])
             if(GenFile === "error"){
                 res.json("failed")
             }
-            exec(ErrorCommand(GenFile)["python"],(err,stdout,stderr)=>{
+            //@ts-ignore
+            exec(ErrorCommand(GenFile)[req.body.language],(err,stdout,stderr)=>{
+                //@ts-ignore
+                exec(`npx rimraf ./LintFolder/${GenFile}.${ExtensionList[language]}`)
                 if(stdout){
                     res.json(ErrorLintList.python(stdout))
                 }
@@ -43,8 +40,6 @@ app.post("/lint",(req:Express.Request,res:Express.Response)=>{
                     res.status(403).json("Something Wrong")
                 }
             })
-        })
-    })
 })
 
 app.listen(3500,()=>{
