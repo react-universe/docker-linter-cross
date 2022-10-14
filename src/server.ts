@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import Express from "express";
 import fs from "fs"
-import {ErrorLintList,ExtensionList} from "./Constants"
+import {ErrorCommand, ErrorLintList,ExtensionList} from "./Constants"
 
 const app = Express()
 
@@ -10,11 +10,12 @@ app.use(Express.json())
 
 const generateFile = (code:string,ext:string) => {
     try {
-        fs.writeFileSync(`./LintFolder/main.${ext}`,code,{
+        let filename = `fi${Date.now()}`
+        fs.writeFileSync(`./LintFolder/${filename}.${ext}`,code,{
             encoding : "utf-8",
             flag : "w"
         })
-        return "success"
+        return filename;
     } catch (error) {
         return "error"
     }
@@ -34,14 +35,12 @@ app.post("/lint",(req:Express.Request,res:Express.Response)=>{
             if(GenFile === "error"){
                 res.json("failed")
             }
-            exec("npm run lintcall",(err,stdout,stderr)=>{
-                const checkFile = fs.existsSync("./LintFolder/megalinter-reports/linters_logs/ERROR-PYTHON_PYRIGHT.log")
-                if(checkFile){
-                    res.json(ErrorLintList.python())
-                }else if(err){
+            exec(ErrorCommand(GenFile)["python"],(err,stdout,stderr)=>{
+                if(stdout){
+                    res.json(ErrorLintList.python(stdout))
+                }
+                else if(err){
                     res.status(403).json("Something Wrong")
-                }else{
-                    res.json("done")
                 }
             })
         })

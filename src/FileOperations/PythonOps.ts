@@ -1,18 +1,12 @@
 import fs from "fs"
 
-const ErrorCapture = () => {
+const ErrorCapture = (ErrorText:string) => {
     try{
-        const ReadErr = fs.readFileSync("./LintFolder/megalinter-reports/linters_logs/ERROR-PYTHON_PYRIGHT.log",{
-            encoding : "utf-8",
-            flag : "r"
-        })
-        
-        const ValArr = ReadErr.split("\n")
-        
+        const ValArr = ErrorText.split("\n")
         let Index:any;
         
          ValArr.filter((i,ind)=>{
-            if(i === 'pyright 1.1.270'){
+            if(i.includes('pyright 1.1.')){
                 Index = ind;
             }
         })
@@ -32,8 +26,8 @@ const ErrorCapture = () => {
                     if(ind === 0){
                         const alint = ix.split(":")
                         arrofline.push({
-                            Line : alint[1],
-                            StartIndex : alint[2]
+                            Line : alint[alint.length-2],
+                            StartIndex : alint[alint.length-1]
                         })
                     }
                     if(ind === 1){
@@ -57,7 +51,7 @@ const ErrorCapture = () => {
                 Message : singSev.message
             })
         })
-        return finalArr;
+        return finalArr.sort((a,b)=> parseInt(a.Line) - parseInt(b.Line));
     }catch(err){
         return "Error"
     }
